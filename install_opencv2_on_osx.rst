@@ -20,8 +20,8 @@ Configure using CMake::
     $ cmake ..
     $ ccmake .
 
-Hit c to configure and g to generate the config.  Make sure that it's set up to build the new-style Python bindings
-if you're planning to use them.
+Hit c to configure and g to generate the config.  Make sure that it's set up to build the new-style Python bindings if
+you're planning to use them.
 
 Make it::
 

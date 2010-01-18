@@ -1,5 +1,4 @@
 import cv
-import sys
 
 
 class WebCam(object):
@@ -25,9 +24,12 @@ class WebCam(object):
             while True:
                 im = self.get_image()
                 cv.ShowImage('Camera', im)
-                cv.WaitKey(int(1000 * 1.0/fps))
+                key = cv.WaitKey(int(1000 * 1.0/fps))
+                if key == 0x1b:
+                    break
         except KeyboardInterrupt:
             return
+
 
 if __name__=="__main__":
     webcam = WebCam()

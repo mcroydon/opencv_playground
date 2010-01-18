@@ -29,14 +29,16 @@ __version__ = ('0', '1', '0', 'alpha')
 __license__ = 'BSD'
 
 from optparse import OptionParser
-import cv, os, urllib
+import cv, os, sys, urllib
 
 HAAR_PATH = os.environ.get('HAAR_PATH', '/usr/local/share/opencv/haarcascades/')
 
-def detect(imagename):
-    # Load the image
-    image = cv.LoadImage(imagename)
-
+def detect(image):
+    if isinstance(image, basestring):
+        # Load the image
+        image = cv.LoadImage(image)
+    elif not isinstance(image, cv.iplimage):
+        sys.exit(1)
     # Make a grayscale copy
     size = cv.GetSize(image)
     gray_image = cv.CreateImage(size, 8, 1)
@@ -59,7 +61,7 @@ if __name__ == '__main__':
     parser = OptionParser(usage)
     parser.add_option("-f", "--file", dest="filename", help="read data from FILENAME")
     parser.add_option("-u", "--url", dest="url",help="read data from URL")
-    
+
     (options, args) = parser.parse_args()
     if options.filename and options.url:
         parser.error("Cannot use both file and url options.")
@@ -73,7 +75,7 @@ if __name__ == '__main__':
 
     cv.NamedWindow('Detect')
     cv.ShowImage('Camera', image)
-    
+
     while 1:
         # Break on ESC
         key = cv.WaitKey(10)

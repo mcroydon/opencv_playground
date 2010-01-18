@@ -14,6 +14,7 @@ class WebCam(object):
     def get_image(self):
         """ Get the current frame and convert to an Image object """
         im = cv.QueryFrame(self.camera)
+        im = self.process_image(im)
         return Image.fromstring("RGB", (im.width, im.height), im.tostring())
 
     def process_image(self, im):

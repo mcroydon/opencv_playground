@@ -1,8 +1,5 @@
 import cv
-import Image
-import pygame
 import sys
-from pygame.locals import *
 
 
 class WebCam(object):
@@ -15,7 +12,7 @@ class WebCam(object):
         """ Get the current frame and convert to an Image object """
         im = cv.QueryFrame(self.camera)
         im = self.process_image(im)
-        return Image.fromstring("RGB", (im.width, im.height), im.tostring())
+        return im
 
     def process_image(self, im):
         """ Hook to do some image processing / manipulation """
@@ -23,21 +20,12 @@ class WebCam(object):
 
     def capture_video(self):
         fps = 30.0
-        pygame.init()
-        window = pygame.display.set_mode((self.width,self.height))
-        pygame.display.set_caption("WebCam Demo")
-        screen = pygame.display.get_surface()
         try:
+            cv.NamedWindow('Camera', cv.CV_WINDOW_AUTOSIZE)
             while True:
-                events = pygame.event.get()
-                for event in events:
-                    if event.type == QUIT or event.type == KEYDOWN:
-                        sys.exit(0)
                 im = self.get_image()
-                pg_img = pygame.image.frombuffer(im.tostring(), im.size, im.mode)
-                screen.blit(pg_img, (0,0))
-                pygame.display.flip()
-            pygame.time.delay(int(1000 * 1.0/fps))
+                cv.ShowImage('Camera', im)
+                cv.WaitKey(int(1000 * 1.0/fps))
         except KeyboardInterrupt:
             return
 

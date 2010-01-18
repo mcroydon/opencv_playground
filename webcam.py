@@ -16,6 +16,10 @@ class WebCam(object):
         im = cv.QueryFrame(self.camera)
         return Image.fromstring("RGB", (im.width, im.height), im.tostring())
 
+    def process_image(self, im):
+        """ Hook to do some image processing / manipulation """
+        return im
+
     def capture_video(self):
         fps = 30.0
         pygame.init()
